@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>1. Survivorship<sup>[The</sup> following surv.func function is only intended for traditional survivorship data. That is, the data must be assignable to discrete age classes. In zooarchaeology, this is traditionally dental eruption/wear data. Epiphyseal fusion data are treated in section 2.]</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<p>Zooarchaeology is concerned with the analysis and inference of faunal remains recovered from archaeological sites. The <strong>zooaRch package</strong> provides analytical tools for zooarchaeological data. Functions in this package allow users to:</p>
+
+<ul>
+<li>read </li>
+<li>manipulate </li>
+<li>visualize </li>
+<li>and analyze zooarchaeological data</li>
+</ul>
+
+<h2>1. Survivorship<sup>[The</sup> following surv.func function is only intended for traditional survivorship data. That is, the data must be assignable to discrete age classes. In zooarchaeology, this is traditionally dental eruption/wear data. Epiphyseal fusion data are treated in section 2.]</h2>
+
+<h3>1.1 Introduction</h3>
+
+<p>The surv.func function creates confidence intervals around survivorship data. It takes bootstrap samples of the original dataset, calculates the Kaplan-Meier Estimator (KME) for each, and then calculates the confidence interval. Defaults are 1000 iterations for the bootstrap and 95% for the confidence interval. </p>
+
+<h3>1.2 Setting up the Data</h3>
+
+<p>The data must be coded in the long way (i.e., each specimen must have its own entry). The dataframe should include two columns: one called &ldquo;Genus&rdquo; and one called &ldquo;Ageclass.&rdquo; For example, the first six entries of the Marj Rabba sheep/goat data from Price et al.<sup>[Price,</sup> M.D., Buckley, M., Rowan, Y.M., Kersel, M., 2013. Animal Management Strategies during the Chalcolithic in the Lower Galilee: New Data from Marj Rabba, Paleorient 39, 183-200.]  is:</p>
+
+<table><thead>
+<tr>
+<th align="center">Genus</th>
+<th align="center">Ageclass</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">Ovis/Capra</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">Ovis/Capra</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">Ovis/Capra</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">Ovis/Capra</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">Ovis/Capra</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">Ovis/Capra</td>
+<td align="center">3</td>
+</tr>
+</tbody></table>
+
+<p>Note: the Ageclass must be numeric (i.e., you cannot use &ldquo;A&rdquo;, &ldquo;B&rdquo;, &ldquo;C&rdquo;, etc. for age classes).</p>
+
+<h3>1.3 Arguments</h3>
+
+<p>surv.func(SurviveData, labels = NULL, models = NULL, usermod = NULL, ci = 95, plot = TRUE, iter = 1000)</p>
+
+<ul>
+<li>SurviveData    The dataset described in section 1.2.</li>
+<li><p>Labels    The names of the age classes. By default, they are numeric from 1 to x, where x is the total number of age classes. One can define labels following this example for nine age classes A-I: Labels.ageclass&lt;-c(&ldquo;A&rdquo;, &ldquo;B&rdquo;, &ldquo;C&rdquo;, &ldquo;D&rdquo;, &ldquo;E&rdquo;, &ldquo;F&rdquo;, &ldquo;G&rdquo;, &ldquo;H&rdquo;, &ldquo;I&rdquo;)</p></li>
+<li><p>models    User-defined models. Already existing models include:</p>
+
+<pre><code>    model.security: .904, .904, .645, .38, .25, .239, .171, .118, 0
+    model.milk: .47, .42, .39, .35, .28, .23, .19, .1, 0
+    model.wool: .85, .75, .65, .63, .57, .50, .43, .20, 0
+</code></pre>
+
+<p>For nine age classes (Payne 1973; Marom and Bar-Oz 2009 <sup>[Payne,</sup> S., 1973. Kill-off Patterns in Sheep and Goats: The Mandibles from Asvan Kale, Anatolian Studies 23, 281-303; Marom, N., Bar-Oz, G., 2009. Culling Profiles: The Indeterminacy of Archaeozoological Data to Survivorship Curve Modelling of Sheep and Goat Herd Maintenance Strategies, Journal of Archaeological Science 36, 1184-1187.]) </p>
+
+<pre><code>    model.catastrophe: .86, .73, .60, .49, .39, .31, .23, .16, .11, .07, .03, .01, 0
+    model.attritional: .76, .53, .48, .46, .45, .42, .39, .34, .29, .20, .11, .03, 0            
+</code></pre>
+
+<p>For 13 age classes (Stiner 1990; Speth 1983 <sup>[Stiner,</sup> M.C., 1990. The Use of Mortality Patterns in Archaeological Studies of Homonid Predatory Adaptations, Journal of Anthropological Archaeology 9, 305-351. Speth, J.D., 1983. Bison Kills and Bone Counts: Decision Making by Ancient Hunters, University of Chicago Press, London.
+]) </p></li>
+<li><p>usermod   The user can define new models following this example, which uses five age classes (note: models must be a list):</p>
+
+<p>new.model  &lt;- c(.9, .7, .5, .2, .1)
+  new.model2 &lt;- c(.9, .8, .4, .3, .1)
+  models &lt;- list(Model1=new.model, Model2=new.model2)
+  surv.func(SurviveData, models=NULL, usermod=models)
+  This graphs the two new models and labels them as &ldquo;Model1&rdquo; and &ldquo;Model2&rdquo; in the legend.</p></li>
+<li><p>ci        The confidence interval. Change to, e.g., ci = 90 or ci = 68 as desired)</p></li>
+<li><p>plot      If TRUE, it plots the data on a survivorship curve. If FALSE, it does not.</p></li>
+<li><p>iter      The number of bootstrap iterations. Change to, e.g., iter = 10000. </p></li>
+</ul>
+
+<h3>1.4 What the Function Does</h3>
+
+<p>The function calculates the KME values for the original dataset.</p>
+
+<pre><code class="r">&gt; survivorcurve.Eq4 &lt;- function(data)
+{
+  vector &lt;- rep(1, N.ages+1) 
+  for(i in 1:N.ages+1) 
+  {
+    vector[i] &lt;- vector[i-1]*(sum(data &gt;= (i-1)) - sum(data == &gt; (i-1)))/sum(data &gt;= (i-1)) 
+ }
+ vector[is.na(vector)] &lt;- 0
+ round(vector,4) 
+}
+</code></pre>
+
+<p>It then takes x samples of the dataset, with x equal to the number of iterations (Default = 1000). The samples are initially structured in the same way as the original dataset, with each sample size equal to the size of the original (e.g., in the Marj Rabba example, there are 42 entries in each sample). The function calculates the KME for each sample  </p>
+
+<pre><code class="r">survive.matrix &lt;- matrix(NA, ncol = N.ages+1, nrow = 1000)
+survive.matrix[1,] &lt;- survivorcurve.Eq4(SurviveData$Ageclass)
+for(i in 2:1000)
+{
+  bootstrap &lt;- sample(1:nrow(SurviveData), nrow(SurviveData),   replace = TRUE)
+  survive.matrix[i,] &lt;-
+survivorcurve.Eq4(SurviveData$Ageclass[bootstrap])
+}
+</code></pre>
+
+<p>Plotting and the calculation of the confidence intervals is straightforward:</p>
+
+<pre><code class="r">plot(x = (1:N.ages), y = survive.matrix[1,-1], type = &quot;l&quot;, lwd = 2, xlab = &quot;Age Class&quot;, 
+     ylab = &quot;Proportion Survived&quot;, axes = FALSE, ylim = 
+c(0,1))
+axis(side = 1, at = 1:N.ages, 
+     labels = Labels.ageclass)
+axis(side = 2)
+
+lines(x = 1:N.ages, y = apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, probs = 0.025), lty = &quot;dashed&quot;, ylim = c(0,1))
+
+lines(x = 1:N.ages, y = apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, probs = 0.975), lty = &quot;dashed&quot;, ylim = c(0,1))
+</code></pre>
+
+<p>Plotting models and a legend is also straightforward:</p>
+
+<pre><code class="r">lines(x = 1:N.ages, y = model.catastrophe, col = &quot;blue&quot;, lwd = 2, lty = &quot;dotted&quot;)
+lines(x = 1:N.ages, y = model.attritional, col = &quot;red&quot;, lwd = 2, lty = &quot;dotdash&quot;)
+
+legend(x = &quot;topright&quot;, cex = .75, lwd = c(2,1,2,2,2),lty = 
+c(&quot;solid&quot;, &quot;dashed&quot;, &quot;dotted&quot;, &quot;dotdash&quot;), 
+       col = c(&quot;black&quot;, &quot;black&quot;, &quot;blue&quot;, &quot;red&quot;),
+       legend = c(&quot;Survivorship&quot;, &quot;95% Confidence Interval&quot;, 
+    &quot;Catastrophe&quot;, &quot;Attritional&quot;))
+</code></pre>
+
+<p>Finally, the function makes a table of the results:</p>
+
+<pre><code class="r">data.LowerCI &lt;- apply(survive.matrix[,-1], MARGIN = 2, FUN = 
+quantile, prob = 0.025)
+data.PointValue &lt;- survive.matrix[1,-1]
+data.UpperCI &lt;- apply(survive.matrix[,-1], MARGIN = 2, FUN =  quantile, prob = 0.975)
+
+Taxon &lt;- rep(unique(SurviveData$Genus), times = N.ages)
+
+Output.Matrix &lt;- data.frame(Taxon = Taxon, AgeClassLabs =  
+    Labels.ageclass, LowerCI = data.LowerCI, PointValue = 
+    data.PointValue, UpperCI = data.UpperCI)
+
+Output.Matrix
+</code></pre>
+
+<h2>2. Survivorship using the %Fused Method</h2>
+
+<h3>2.1 Introduction</h3>
+
+<p>The fuse.func function creates confidence intervals for the survivorship based on epiphyseal fusion, using the %Fused method. This method takes the ratio of fused to fused-plus-unfused bones for each fusion group (a fusion group is a group of elements that fuse around the same time). It is important to note that this is not equivalent to survivorship based on age classes. Fusion groups are not age classes, since the specimens pertinent to each fusion group are from animals of different ages. In effect, each fusion group is really just a survivorship curve with two age classes - fused and unfused. </p>
+
+<p>The fuse.func function requires the user to load a .csv file with (&ldquo;Data&rdquo;, below). The user is then prompted to enter the number of fusion groups, the number of elements in each fusion group, and finally the names of the elements in each fusion group. The function then takes bootstrap samples of the original dataset for the %Fused in each fusion group. It then calculates the confidence interval. Defaults are 1000 iterations for the bootstrap and 95% for the confidence interval. </p>
+
+<p>Note: the graphical output requires the package ggplot2<sup>[Wickman,</sup> H., 2009. ggplot2: elegant graphics for data analysis, Springer, New York.].  The code automatically installs and loads ggplot2 if not already loaded. </p>
+
+<h3>2.2 Setting up the Data</h3>
+
+<p>The data must be coded in the long way (i.e., each specimen must have its own entry) in a .csv file. The dataframe should include three columns: &ldquo;Identification&rdquo; (a unique identification number, this can be left blank); &ldquo;Element&rdquo; (these should be differentiated according to proximal and distal, when necessary); &ldquo;Fusion&rdquo; (&ldquo;Fused&rdquo; or &ldquo;Unfused&rdquo;). An example:</p>
+
+<table><thead>
+<tr>
+<th align="center">Identification</th>
+<th align="center">Element</th>
+<th align="center">Fusion</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="center">Specimen1</td>
+<td align="center">Calcaneus</td>
+<td align="center">Fused</td>
+</tr>
+<tr>
+<td align="center">Specimen2</td>
+<td align="center">Px.Femur</td>
+<td align="center">Fused</td>
+</tr>
+<tr>
+<td align="center">Specimen3</td>
+<td align="center">Px.Femur</td>
+<td align="center">Unfused</td>
+</tr>
+<tr>
+<td align="center">Specimen4</td>
+<td align="center">Ds.Femur</td>
+<td align="center">Unfused</td>
+</tr>
+<tr>
+<td align="center">Specimen5</td>
+<td align="center">Px.Radius</td>
+<td align="center">Fused</td>
+</tr>
+<tr>
+<td align="center">Specimen6</td>
+<td align="center">Innominate</td>
+<td align="center">Unfused</td>
+</tr>
+</tbody></table>
+
+<h3>2.3 Arguments</h3>
+
+<p>The fuse.func function is in the following format by default:</p>
+
+<p>fuse.func(data, iter=100, ci = 95, plotci=TRUE, plot.title=NULL)</p>
+
+<ul>
+<li>data      The dataset described in section 2.2. Must be a dataframe.</li>
+<li>iter      The number of bootstrap iterations.</li>
+<li>ci        The confidence interval. Change to, e.g., ci = 90 or ci = 68 as desired).</li>
+<li>plotci    Command for plotting the %Fused graph with confidence intervals. If FALSE, no graph is produced. Uses ggplot2.</li>
+<li>plot.title    This is the title of graph. Change, e.g., to plot.title = &ldquo;Example Graph&rdquo;.</li>
+</ul>
+
+<h3>2.4 What the Function Does</h3>
+
+<p>The function first requires the user to define the data. Then the function initiates a series of command prompts. First, for example,</p>
+
+<pre><code class="r">&gt; Enter number of fusion groups
+&gt; 5
+</code></pre>
+
+<p>Then</p>
+
+<pre><code class="r">&gt; Enter number of skeletal elements for fusion group A
+&gt; 2
+
+.
+.
+.
+
+&gt; Enter number of skeletal elements for fusion group E 
+&gt; 1
+</code></pre>
+
+<p>Then</p>
+
+<pre><code class="r">&gt; Enter the 2 names of skeletal elements for fusion group A then &gt; press enter 
+&gt; Px.Radius
+&gt; Ds.Humerus
+
+.
+.
+.
+
+&gt; Enter the 1 names of skeletal elements for fusion group E then &gt; press enter 
+&gt; Phalanx1
+</code></pre>
+
+<p>The R code for this is as follows:</p>
+
+<pre><code class="r">fuse.func&lt;-function(data,iter=1000,plotci=TRUE,plot.title=NULL){
+  require(ggplot2)
+  cat(paste(&quot;Enter number of fusion groups&quot;), &quot;\n&quot;)
+  ans&lt;-readLines(n = 1)
+  ans &lt;- as.numeric(ans)  
+  fu.grps&lt;-LETTERS[1:ans]
+  ske.n&lt;-numeric(length(fu.grps))  
+  for(i in 1:length(ske.n)){
+    cat(paste(&quot;Enter number of skeletal elements for fusion group&quot;), fu.grps[i],&quot;\n&quot;)
+    ans&lt;-readLines(n = 1)
+    ske.n[i] &lt;- as.numeric(ans)
+  }  
+  ele.list&lt;-as.list(rep(NA,length(ske.n)))
+  names(ele.list)&lt;-fu.grps
+  for(i in 1: length(ske.n)){
+    cat(paste(&quot;Enter the&quot;, ske.n[i],&quot;names of skeletal elements for fusion group&quot;), fu.grps[i],&quot;then press enter&quot;,&quot;\n&quot;)
+    ele.list[[i]]&lt;-readLines(n = ske.n[i])
+  }
+</code></pre>
+
+<p>Then the function calculates the %Fused for each fusion group:</p>
+
+<pre><code class="r">pctfuse&lt;-function(dat){
+    pct.ufu&lt;-n&lt;-numeric(length(ele.list))
+    names(pct.ufu)&lt;-fu.grps
+    wh&lt;-function(it){which(dat$Element==ele.list[[i]][it])} 
+    for (i in 1:length(pct.ufu)){
+      tab&lt;-table(dat$Fusion[unlist(lapply(1:ske.n[i],wh))])
+      fu&lt;-tab[which(names(table(dat$Fusion[unlist(lapply(1:ske.n[i],wh))] ))==&quot;Fused&quot;)]
+      ufu&lt;-tab[which(names(table(dat$Fusion[unlist(lapply(1:ske.n[i],wh))] ))==&quot;Unfused&quot;)]
+      if (is.nan(fu/(fu+ufu))){
+        pct.ufu[i]&lt;-0} else {pct.ufu[i]&lt;-fu/(fu+ufu)}
+      n[i]&lt;-(fu+ufu)    
+    }
+    return(list(pct.ufu,n))
+  }  
+</code></pre>
+
+<p>It then bootstraps the %Fused values for each fusion group (an analogous process to part 1.4). It provides a table of the results, with confidence intervals (default = 95%).</p>
+
+<pre><code class="r">  boot &lt;- matrix(NA, ncol = length(ele.list), nrow = iter) 
+  boot[1,] &lt;- pctfuse(data)[[1]]
+  for(i in 2:iter){
+    data.boot&lt;-data[sample(1:dim(data)[1],dim(data)[1],replace=T),]
+    boot[i,] &lt;- pctfuse(data.boot)[[1]]
+  }
+
+  ### Provide a Table of the Bootstrap Results
+  quantilematrix &lt;- matrix(NA, ncol = 2, nrow = length(fu.grps))
+  for(i in 1:ncol(boot)){
+    quantilematrix[i,] &lt;- quantile(boot[,i], probs = c(0.025,0.975), na.rm = T)
+  }
+  outputtable &lt;- data.frame(Fusion.groups = fu.grps, 
+                            Data = round(boot[1,],2), 
+                            LowerCI = round(quantilematrix[,1],2), UpperCI = round(quantilematrix[,2],2), 
+                            Count = pctfuse(data)[[2]])
+</code></pre>
+
+<p>Plotting the results is the final step. The fuse.func function uses ggplot2 to graph the results. The resulting graph shows the %Fused on the y-axis, with lines representing the confidence intervals. The x-axis shows the fusion groups (which are labeled &ldquo;A&rdquo; , &ldquo;B&rdquo; , &ldquo;C&rdquo;, etc.). Directly above the graphed %Fused values and confidence intervals are the numbers of specimens per fusion group. </p>
+
+<pre><code class="r">  ### Plotting the %Fusion data
+   ciplot&lt;-ggplot(outputtable, aes(x = Fusion.groups, y = Data))+
+    #now add the points
+    geom_point(size = 3)+
+    #add in the 95% confidence interval bars
+    geom_errorbar(aes(ymax = UpperCI, ymin = LowerCI), width = 0.2)+
+    #add in the sample size label for each fusion group
+    #this uses the previously-made function
+    geom_text(aes(x = Fusion.groups, y = rep(1.05, length(Fusion.groups)), label = Count))+
+    #add in the theme (all of the background plotting details)
+    #the size for element_text is font size, for element_line it is the thickness
+    #element_blank() makes it so there is no background color to the plot
+    theme(panel.background = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(fill=NA, color = &quot;black&quot;),
+          axis.title = element_text(color = &quot;black&quot;, size = 20),
+          axis.text = element_text(color = &quot;black&quot;, size = 15),
+          axis.ticks = element_line(color = &quot;black&quot;, size = 0.75),
+          plot.title = element_text(color = &quot;black&quot;, size = 24))+
+    #add in the titles/labels
+    ylab(&quot;%Fused&quot;)+xlab(&quot;Fusion Group&quot;)+
+    ggtitle(plot.title)
+  if(plotci==TRUE){print(ciplot)}
+  list(Output = outputtable, Bootstrap.Data = boot)
+}
+</code></pre>
+
+</body>
+
+</html>

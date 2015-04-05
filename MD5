@@ -1,0 +1,17 @@
+bd5dfb5d48f8f87af858255f1b6cb87b *DESCRIPTION
+969c162f9018a0c43189713e7076c363 *NAMESPACE
+0290ea2dc46f33f75c82fcad62751898 *R/zooaRch.r
+07c300d8a44229abd7181803a332f534 *build/vignette.rds
+6cd6e371719880aa36b090f41c2dd45a *data/marjRab.RData
+901b8fed7f7a3f6a52f17493423c2910 *data/marjRab_fuse.RData
+af9b1498aa15a6e00391bece6631f513 *data/speth83.RData
+ce081bf58786924853210c0d9f4ad8c5 *inst/doc/zooaRch-vignette.R
+710539996bae5c3881c1d1433df48d81 *inst/doc/zooaRch-vignette.html
+1090de36eca245cb4f7c14ab5a905dd5 *inst/doc/zooaRch-vignette.rmd
+7f498f40dada9c4089bd0bb601eb7e83 *man/fuse.func.Rd
+4688955a6bfe0d6307da4d195110fdc5 *man/marjRab.Rd
+5685f1142bfc419a23bc9435764d5d63 *man/marjRab.fuse.Rd
+db461f97399238b71c615f4b4cb0923c *man/speth83.Rd
+9faa1be848487206b230b1be12a7bf4d *man/surv.func.Rd
+6ec9527d0d270cfc800e287f2dd9889a *man/zooaRch-package.Rd
+1090de36eca245cb4f7c14ab5a905dd5 *vignettes/zooaRch-vignette.rmd
