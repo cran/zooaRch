@@ -1,4 +1,4 @@
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  > survivorcurve.Eq4 <- function(data)
 #  {
 #    vector <- rep(1, N.ages+1)
@@ -11,7 +11,7 @@
 #  }
 #  
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  survive.matrix <- matrix(NA, ncol = N.ages+1, nrow = 1000)
 #  survive.matrix[1,] <- survivorcurve.Eq4(SurviveData$Ageclass)
 #  for(i in 2:1000)
@@ -22,7 +22,7 @@
 #  }
 #  
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  plot(x = (1:N.ages), y = survive.matrix[1,-1], type = "l", lwd = 2, xlab = "Age Class",
 #       ylab = "Proportion Survived", axes = FALSE, ylim =
 #  c(0,1))
@@ -34,7 +34,7 @@
 #  
 #  lines(x = 1:N.ages, y = apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, probs = 0.975), lty = "dashed", ylim = c(0,1))
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  lines(x = 1:N.ages, y = model.catastrophe, col = "blue", lwd = 2, lty = "dotted")
 #  lines(x = 1:N.ages, y = model.attritional, col = "red", lwd = 2, lty = "dotdash")
 #  
@@ -44,7 +44,7 @@
 #         legend = c("Survivorship", "95% Confidence Interval",
 #  	"Catastrophe", "Attritional"))
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  data.LowerCI <- apply(survive.matrix[,-1], MARGIN = 2, FUN =
 #  quantile, prob = 0.025)
 #  data.PointValue <- survive.matrix[1,-1]
@@ -58,11 +58,42 @@
 #  
 #  Output.Matrix
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
+#  > mortprof <- function(data){
+#      vector <- rep(NA, N.ages)
+#      for(i in 1:N.ages) {
+#        vector[i] <- sum(data==i)/length(data)
+#      }
+#      vector[is.na(vector)] <- 0
+#      round(vector,4)
+#    }
+#  
+
+## ----eval=FALSE----------------------------------------------------------
+#  mortality.matrix <- matrix(NA, ncol = N.ages, nrow = iter)
+#  mortality.matrix[1,] <- mortprof(data)
+#  for(i in 2:iter){
+#    bootstrap <- sample(1:length(data), length(data), replace = TRUE)
+#    mortality.matrix[i,] <- unlist(mortprof(data[bootstrap]))
+#  }
+#  
+
+## ----eval=FALSE----------------------------------------------------------
+#  bar<-barplot(mortality.matrix[1,],ylim=c(0,(max(upCI)+.1)),
+#              names=Labels.ageclass,ylab=ylab,
+#              xlab=xlab,beside=T)
+#        g<-(max(bar)-min(bar))/110
+#        for (i in 1:length(bar))         {
+#          lines(c(bar[i],bar[i]),c(upCI[i],loCI[i]))
+#          lines(c(bar[i]-g,bar[i]+g),c(upCI[i],upCI[i]))
+#          lines(c(bar[i]-g,bar[i]+g),c(loCI[i],loCI[i]))
+#        }
+
+## ----eval=FALSE----------------------------------------------------------
 #  > Enter number of fusion groups
 #  > 5
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  > Enter number of skeletal elements for fusion group A
 #  > 2
 #  
@@ -73,7 +104,7 @@
 #  > Enter number of skeletal elements for fusion group E
 #  > 1
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  > Enter the 2 names of skeletal elements for fusion group A then > press enter
 #  > Px.Radius
 #  > Ds.Humerus
@@ -85,7 +116,7 @@
 #  > Enter the 1 names of skeletal elements for fusion group E then > press enter
 #  > Phalanx1
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  fuse.func<-function(data,iter=1000,plotci=TRUE,plot.title=NULL){
 #    require(ggplot2)
 #    cat(paste("Enter number of fusion groups"), "\n")
@@ -105,7 +136,7 @@
 #      ele.list[[i]]<-readLines(n = ske.n[i])
 #    }
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #  pctfuse<-function(dat){
 #      pct.ufu<-n<-numeric(length(ele.list))
 #      names(pct.ufu)<-fu.grps
@@ -121,7 +152,7 @@
 #      return(list(pct.ufu,n))
 #    }
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #    boot <- matrix(NA, ncol = length(ele.list), nrow = iter)
 #    boot[1,] <- pctfuse(data)[[1]]
 #    for(i in 2:iter){
@@ -139,7 +170,7 @@
 #                              LowerCI = round(quantilematrix[,1],2), UpperCI = round(quantilematrix[,2],2),
 #                              Count = pctfuse(data)[[2]])
 
-## ----,eval=FALSE---------------------------------------------------------
+## ----eval=FALSE----------------------------------------------------------
 #    ### Plotting the %Fusion data
 #     ciplot<-ggplot(outputtable, aes(x = Fusion.groups, y = Data))+
 #      #now add the points

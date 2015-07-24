@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>1. Survivorship<sup>[The</sup> following surv.func function is only intended for traditional survivorship data. That is, the data must be assignable to discrete age classes. In zooarchaeology, this is traditionally dental eruption/wear data. Epiphyseal fusion data are treated in section 2.]</title>
+<title>1. Survivorship and Mortality<sup>[The</sup> surv.func function is only intended for traditional survivorship analyses, while mort.func is the analog for analyses of mortality profiles.That is, the data must be assignable to discrete age classes. In zooarchaeology, this is traditionally dental eruption/wear data. Epiphyseal fusion data are treated in section 2.]</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -210,13 +210,13 @@ hr {
 <li>and analyze zooarchaeological data</li>
 </ul>
 
-<h2>1. Survivorship<sup>[The</sup> following surv.func function is only intended for traditional survivorship data. That is, the data must be assignable to discrete age classes. In zooarchaeology, this is traditionally dental eruption/wear data. Epiphyseal fusion data are treated in section 2.]</h2>
+<h2>1. Survivorship and Mortality<sup>[The</sup> surv.func function is only intended for traditional survivorship analyses, while mort.func is the analog for analyses of mortality profiles.That is, the data must be assignable to discrete age classes. In zooarchaeology, this is traditionally dental eruption/wear data. Epiphyseal fusion data are treated in section 2.]</h2>
 
 <h3>1.1 Introduction</h3>
 
-<p>The surv.func function creates confidence intervals around survivorship data. It takes bootstrap samples of the original dataset, calculates the Kaplan-Meier Estimator (KME) for each, and then calculates the confidence interval. Defaults are 1000 iterations for the bootstrap and 95% for the confidence interval. </p>
+<p>Functions surv.func and mort.func create confidence intervals around survivorship and mortality data respectively. surv.func takes bootstrap samples of the original dataset, calculates the Kaplan-Meier Estimator (KME) for each, and then calculates the confidence interval. The function mort.func bootstraps the mortality profiles. Defaults are 1000 iterations for the bootstrap and 95% for the confidence interval. </p>
 
-<h3>1.2 Setting up the Data</h3>
+<h3>1.2 Setting up the Data for mortality and survivorship</h3>
 
 <p>The data must be coded in the long way (i.e., each specimen must have its own entry). The dataframe should include two columns: one called &ldquo;Genus&rdquo; and one called &ldquo;Ageclass.&rdquo; For example, the first six entries of the Marj Rabba sheep/goat data from Price et al.<sup>[Price,</sup> M.D., Buckley, M., Rowan, Y.M., Kersel, M., 2013. Animal Management Strategies during the Chalcolithic in the Lower Galilee: New Data from Marj Rabba, Paleorient 39, 183-200.]  is:</p>
 
@@ -254,12 +254,14 @@ hr {
 
 <p>Note: the Ageclass must be numeric (i.e., you cannot use &ldquo;A&rdquo;, &ldquo;B&rdquo;, &ldquo;C&rdquo;, etc. for age classes).</p>
 
-<h3>1.3 Arguments</h3>
+<h3>1.3 Arguments.</h3>
+
+<p>Function arguments are very similar for both surv.func and mort.func. Here we describe the surv.func arguments. See help(mort.func) and help(surv.func) for more details on the arguments for mortality profile and survivorship bootstrapping.</p>
 
 <p>surv.func(SurviveData, labels = NULL, models = NULL, usermod = NULL, ci = 95, plot = TRUE, iter = 1000)</p>
 
 <ul>
-<li>SurviveData    The dataset described in section 1.2.</li>
+<li>SurviveData    The dataset described in section 1.2 (in mort.func this is &ldquo;mortData&rdquo;).</li>
 <li><p>Labels    The names of the age classes. By default, they are numeric from 1 to x, where x is the total number of age classes. One can define labels following this example for nine age classes A-I: Labels.ageclass&lt;-c(&ldquo;A&rdquo;, &ldquo;B&rdquo;, &ldquo;C&rdquo;, &ldquo;D&rdquo;, &ldquo;E&rdquo;, &ldquo;F&rdquo;, &ldquo;G&rdquo;, &ldquo;H&rdquo;, &ldquo;I&rdquo;)</p></li>
 <li><p>models    User-defined models. Already existing models include:</p>
 
@@ -288,7 +290,7 @@ hr {
 <li><p>iter      The number of bootstrap iterations. Change to, e.g., iter = 10000. </p></li>
 </ul>
 
-<h3>1.4 What the Function Does</h3>
+<h3>1.4 What the Function surv.func Does.</h3>
 
 <p>The function calculates the KME values for the original dataset.</p>
 
@@ -357,6 +359,45 @@ Output.Matrix &lt;- data.frame(Taxon = Taxon, AgeClassLabs =
 
 Output.Matrix
 </code></pre>
+
+<h3>1.5 What the Function mort.func Does.</h3>
+
+<p>The function calculates mortality profile values using the age distribution as a proportion from the original dataset.</p>
+
+<pre><code class="r">&gt; mortprof &lt;- function(data){
+    vector &lt;- rep(NA, N.ages)   
+    for(i in 1:N.ages) {
+      vector[i] &lt;- sum(data==i)/length(data)
+    }
+    vector[is.na(vector)] &lt;- 0
+    round(vector,4) 
+  }  
+</code></pre>
+
+<p>It then takes x samples of the dataset, with x equal to the number of iterations (Default iter = 1000). The samples are initially structured in the same way as the original dataset, with each sample size equal to the size of the original (e.g., in the Marj Rabba example, there are 42 entries in each sample). The function calculates the mortality profile using the proportional age distribution for each sample. </p>
+
+<pre><code class="r">mortality.matrix &lt;- matrix(NA, ncol = N.ages, nrow = iter)
+mortality.matrix[1,] &lt;- mortprof(data)
+for(i in 2:iter){
+  bootstrap &lt;- sample(1:length(data), length(data), replace = TRUE)
+  mortality.matrix[i,] &lt;- unlist(mortprof(data[bootstrap]))
+} 
+</code></pre>
+
+<p>Plotting and the calculation of the confidence intervals is straightforward:</p>
+
+<pre><code class="r">bar&lt;-barplot(mortality.matrix[1,],ylim=c(0,(max(upCI)+.1)),
+            names=Labels.ageclass,ylab=ylab,
+            xlab=xlab,beside=T)
+      g&lt;-(max(bar)-min(bar))/110
+      for (i in 1:length(bar))         {
+        lines(c(bar[i],bar[i]),c(upCI[i],loCI[i]))
+        lines(c(bar[i]-g,bar[i]+g),c(upCI[i],upCI[i]))
+        lines(c(bar[i]-g,bar[i]+g),c(loCI[i],loCI[i]))
+      }
+</code></pre>
+
+<p>Plotting models and a legend and making a table of the results is also a sstraight forward as shown for surv.func.</p>
 
 <h2>2. Survivorship using the %Fused Method</h2>
 

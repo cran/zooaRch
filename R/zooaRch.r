@@ -4,11 +4,17 @@
 #' @title Analytical Tools for Zooarchaeological Data
 #' @author Erik Otarola-Castillo, Jesse Wolfhagen, and Max D. Price
 #'
-#' Functions in this package allow to read, manipulate, visualize
-#' and analyze zooarchaeological data - the faunal remains recovered from archaeological sites. 
+#' Functions in this package allow users to import, manipulate, analyze and visualize
+#' zooarchaeological data - the faunal remains recovered from archaeological sites. 
 NULL
 
-#' @import ggplot2 
+#' @import stats
+NULL
+
+#' @import graphics
+NULL
+
+#' @import ggplot2
 NULL
 
 #' Survival data from Marj Rabba, using Payne's (1973) age classes
@@ -23,10 +29,20 @@ NULL
 
 #' Fusion Survival data from Marj Rabba
 #'
-#' @name marjRab.fuse
 #' @docType data
 #' @author M.D. Price, M. Buckley, Y.M. Rowan, and M. Kersel
 #' @references Price, M.D., Buckley, M., Rowan, Y.M., Kersel, M., 2013. Animal Management Strategies during the Chalcolithic in the Lower Galilee: New Data from Marj Rabba, Paleorient 39, 183 - 200.
+#' @keywords datasets
+#' @name marjRab.fuse
+NULL
+
+#' Fusion Survival data for cattle remains from the 
+#' Winslow site, a colonial period farm near Boston, MA.
+#'
+#' @name winslow.fuse
+#' @docType data
+#' @author D. Landon
+#' @references Landon, David B. 1993	Feeding Colonial Boston: A Zooarchaeological Study. Historical Archaeology 30:i-vii, 1-153
 #' @keywords datasets
 NULL
 
@@ -73,7 +89,6 @@ NULL
 #' @references Lyman, R.L., 1994. Vertebrate Taphonomy, Cambridge University Press, Cambridge.
 #' @references Zeder, M.A., 2006. Reconciling Rates of Long Bone Fusion and Tooth Eruption in Sheep (Ovis) and Goat (Capra), in: Ruscillo, D. (Ed.), Recent Advances in Ageing and Sexing Animal Bones, Oxbow Books, Oxford. 
 #' @references Twiss, K.C., 2008. An Assessment of the Archaeological Applicability of Faunal Ageing Methods Based on Dental Wear, International Journal of Osteoarchaeology 18, 329-351.
-
 #' @examples
 #' # Example 1: Payne 1973
 #'  data(marjRab)
@@ -111,7 +126,7 @@ NULL
 #'
 #' plot(age, surv1,type='l',xlim=range(age),ylim=c(0,1))
 #' lines(age, surv2,col='red',)
-
+#' 
 #' # usermods in surv.func must be a list (if not a list, then user will receive error message)
 #' mods<-list(surv1=surv1,surv2=surv2)
 #'
@@ -144,20 +159,23 @@ surv.func<-function(SurviveData,labels=NULL, models=NULL, ci=95, plot=TRUE, iter
     survive.matrix[i,] <- survivorcurve.Eq4(data[bootstrap])
   }  
   ci<-ci/100
-  upCI<-ci+((1-ci)/2)
-  loCI<-((1-ci)/2)
+  upCI<-apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, 
+              probs = ci+((1-ci)/2))
+  loCI<-apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, 
+              probs = ((1-ci)/2))
   if (plot==TRUE){
-    plot(x = (1:N.ages), y = survive.matrix[1,-1], type = "l", lwd = 2, xlab = "Age Class", 
+    plot(x = (1:N.ages), y = survive.matrix[1,-1], type = "n", xlab = "Age Class", 
          ylab = "Proportion Survived", axes = FALSE, ylim = c(0,1))
+    polygon(c(1:N.ages,rev(1:N.ages)),c(loCI,rev(upCI)),col="light gray",border=NA)
     ###         Format the axes
     axis(side = 1, at = 1:N.ages, labels = Labels.ageclass)
-    axis(side = 2)    
+    axis(side = 2)   
+    lines(x = (1:N.ages), y = survive.matrix[1,-1], lwd = 2)
     ###         Plot the lower confidence interval (2.5%)
-    lines(x = 1:N.ages, y = apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, 
-                                  probs = loCI), lty = "dashed", ylim = c(0,1))    
+    lines(x = 1:N.ages, y = loCI, lty = "dashed", ylim = c(0,1))    
     ###         Plot the upper confidence interval (97.5%)
-    lines(x = 1:N.ages, y = apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, 
-                                  probs = upCI), lty = "dashed", ylim = c(0,1))
+    lines(x = 1:N.ages, y = upCI, lty = "dashed", ylim = c(0,1))
+    
     if(!is.null(models) & is.null(usermod)){
       surv.model<-list(Security = c(.904, .904, .645, .38, .25, .239, .171, .118, 0),
                        Milk = c(.47, .42, .39, .35, .28, .23, .19, .1, 0),
@@ -237,7 +255,6 @@ surv.func<-function(SurviveData,labels=NULL, models=NULL, ci=95, plot=TRUE, iter
 #' # Ds.Tibia
 #' # Px.Femur
 #' # Phalanx1
-
 fuse.func<-function(data,iter=1000,ci=95,plotci=TRUE,plot.title=NULL){
   cat(paste("Enter number of fusion groups"), "\n")
   ans<-readLines(n = 1)
@@ -305,3 +322,179 @@ fuse.func<-function(data,iter=1000,ci=95,plotci=TRUE,plot.title=NULL){
   return(list(Output = outputtable, Bootstrap.Data = boot))
 }
 
+#' Analysis of Mortality Profiles
+#'
+#' This is a function used to conduct mortality analyses of zooarchaeological data
+#'
+#' This function plots mortality profiles, along with Confidence Intervals
+#' using dental eruption and wear data. Optionally, plotted mortality profiles can
+#' be compared to idealized models of mortality.
+#'
+#' @param mortData is the age-at-death dataset. This function inputs datasets composed of three columns. 
+#' The first column denotes the genus; the second is the age class (this MUST be numeric) 
+#' if data contains nominal age classes (e.g., 'A', 'B', 'C', etc.) these data must be converted
+#' to numbers (e.g., A = 1, B = 2, etc.).
+#' @param labels Character value indicating wether age class labels wishing to be displayed.
+#' @param models A numerical value (1-5) indiacting the models to compare the data to. Currently mort.func
+#' makes use of 5 mortality models: 1) Security (ref); 2) Milk (ref); 3) Wool (ref); 
+#' 4) Catastrophic (Stiner 1990); and 5) Attritional (Stiner 1990). More models will be added soon. 
+#' An option to include user's own model will also be available.
+#' @param ci Numerical value indicating desired CI level (e.g., 90, 95, 99). Defaults to 95.
+#' @param usermod numeric list (see help(list)) user-specified mortality model. See example 3 below. 
+#' Data must be entered as a list, else user will receive error.
+#' @param plot A logical value indicating wether user wishes an output plot. Default = TRUE.
+#' @param iter A numeric value indicating the number of bootstrap iterations. Defaults to 1000.
+#' @param lsize A numeric value indicating the vertical spacing value in a legend.
+#' @keywords analysis
+#' @export
+#' @author Erik Otarola-Castillo.
+#' @return Function returns a matrix with the following components 
+#'   \item{Lower and Upper CI}{typically the 97.5 and 2.5 percentile markers}
+#'   \item{Point Value}{the y value on the mortality profile}
+#' @references Klein, R.G., Cruz-Uribe, K., 1983. The Analysis of Animal Bones from Archaeological Sites, University of Chicago Press, Chicago.
+#' @references Stiner, M. C. 1990  The Use of Mortality Patterns in Archaeological Studies 
+#' of Hominid Predatory Adaptations. Journal of Anthropological Archaeology 9:305 - 351.
+#' @references Lyman, R.L., 1994. Vertebrate Taphonomy, Cambridge University Press, Cambridge.
+#' @references Voorhies, M. R., 1969  Taphonomy and Population Dynamics of an Early Pliocene Vertebrate Fauna, Knox County, Nebraska. University of Wymonig Press. Contributions to Geology, Special Paper No. 1, Laramie (WY).
+#' @references Reitz, E. and E. Wing 2008	Zooarchaeology. Second Edition. Cambridge University Press, Cambridge.
+#' @examples
+#' # Example 1: Payne 1973
+#'  data(marjRab)
+#' 
+#' # Inspect data structure  
+#'  head(marjRab)
+#'  
+#' # create age-class labels: Payne 1973 uses ageclasses A-I
+#'  Labels <-c('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I')
+#'  mort.func(mortData=marjRab,labels=Labels, models=1:3, ci=95, plot=TRUE, iter=1000)
+#'  
+#' # Example 2: Garnsey Site Bison Data (from Speth 1983)
+#'  data(speth83)
+#' 
+#' # Inspect data structure  
+#'  head(speth83)
+#' 
+#' # create age-class labels using the 13 age classes of Speth's (1983) scheme.
+#'  Labels <-c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+#' 
+#' # Use the catastrophic and attritional mortality curves (after Stiner 1990).
+#'  mort.func(mortData=speth83,labels=Labels, models=4:5, ci=95, plot=TRUE, iter=1000)
+mort.func<-function(mortData,labels=NULL, models=NULL, ci=95, plot=TRUE, iter=1000,usermod=NULL,lsize=.1){
+  data<-mortData$Ageclass 
+  N.ages<-max(data)
+  if(!is.null(labels)){
+    Labels.ageclass <-labels
+  }  
+  if(is.null(labels)){
+    Labels.ageclass <-1:N.ages
+  }  
+  if(!is.null(usermod) & !is.list(usermod)){
+    stop("usmod MUST be entered as a list")
+  }  
+  mortprof <- function(data){
+    vector <- rep(NA, N.ages)   
+    for(i in 1:N.ages) {
+      vector[i] <- sum(data==i)/length(data)
+    }
+    vector[is.na(vector)] <- 0
+    round(vector,4) 
+  }  
+  mortprof(data)
+  mortality.matrix <- matrix(NA, ncol = N.ages, nrow = iter)
+  mortality.matrix[1,] <- mortprof(data)
+  for(i in 2:iter){
+    bootstrap <- sample(1:length(data), length(data), replace = TRUE)
+    mortality.matrix[i,] <- unlist(mortprof(data[bootstrap]))
+  }  
+  ci<-ci/100  
+  upCI<-apply(mortality.matrix[,], MARGIN = 2, FUN = quantile, 
+              probs = ci+((1-ci)/2))
+  loCI<-lo<-apply(mortality.matrix[,], MARGIN = 2, FUN = quantile, 
+                  probs = ((1-ci)/2))
+  
+  if (plot==TRUE){
+    ylab="Mortality"
+    xlab = "Age Class"
+    if(is.null(models) & is.null(usermod)){
+      bar<-barplot(mortality.matrix[1,],ylim=c(0,(max(upCI)+.1)),
+                  names=Labels.ageclass,ylab=ylab,
+                  xlab=xlab,beside=T)
+      g<-(max(bar)-min(bar))/110
+      for (i in 1:length(bar))         {
+        lines(c(bar[i],bar[i]),c(upCI[i],loCI[i]))
+        lines(c(bar[i]-g,bar[i]+g),c(upCI[i],upCI[i]))
+        lines(c(bar[i]-g,bar[i]+g),c(loCI[i],loCI[i]))
+      }
+    }
+    
+    if(!is.null(models) & is.null(usermod)){      
+      mort.model<-list(Security = c(.096, 0, .259, .265, .13, .011, .068, .053, .118),
+                       Milk = c(.53, .05, .03, .04, .07, .05, .04, .09, .1),
+                       Wool = c(.15, .10, .10, .02, .06, .07, .07, .23, .20),
+                       Catastrophic = c(.14, .13, .13, .11, .10, .08, .08, .07, .05, .04, .04, .02, .01),
+                       Attritional = c(.24, .23, .05, .02, .01, .03, .03, .05, .05, .09, .09, .08, .03))
+      dat<-rbind(mortality.matrix[1,], 
+                 do.call(rbind,lapply(mort.model[models],matrix,
+                                      ncol=length(mortality.matrix[1,]),
+                                      byrow=TRUE)))      
+      par(mfrow=c(length(models),1))
+      ylab="Mortality"
+      xlab = "Age Class"      
+      for(j in 2:dim(dat)[1]){
+        bar<-barplot(rbind(mortality.matrix[1,],dat[j,]),ylim=c(0,(max(c(upCI,dat))+.1)),names=Labels.ageclass,ylab=ylab,
+                    xlab=xlab,beside=T,col=c("gray","black") )
+        bar<-bar[1,]
+        g<-(max(bar)-min(bar))/110        
+        for (i in 1:length(bar))         {
+          lines(c(bar[i],bar[i]),c(upCI[i],loCI[i]))
+          lines(c(bar[i]-g,bar[i]+g),c(upCI[i],upCI[i]))
+          lines(c(bar[i]-g,bar[i]+g),c(loCI[i],loCI[i]))
+        } 
+        #lines(x = bar, y = dat[j,],  lwd = 2,col="red")
+        legend(x = "topright",
+               fill=c(NA,"gray","black"),border=c(NA,1,1),lty=c(1,0,0),
+               ncol=3,cex=.75,y.intersp=lsize,
+               legend = c(paste(ci*100,"% CI",sep=""), "Observed",names(mort.model)[models][j-1]))
+      }
+      
+      par(mfrow=c(1,1))
+      
+    }    
+    if(!is.null(usermod)){
+      mort.model<-usermod
+      models<-1:length(mort.model)
+      dat<-rbind(mortality.matrix[1,], 
+                 do.call(rbind,lapply(mort.model[models],matrix,
+                                      ncol=length(mortality.matrix[1,]),
+                                      byrow=TRUE)))      
+      par(mfrow=c(length(models),1))
+      ylab="Mortality"
+      xlab = "Age Class"      
+      for(j in 2:dim(dat)[1]){
+        bar<-barplot(rbind(mortality.matrix[1,],dat[j,]),ylim=c(0,(max(c(upCI,dat))+.1)),names=Labels.ageclass,ylab=ylab,
+                    xlab=xlab,beside=T,col=c("gray","black") )
+        bar<-bar[1,]
+        g<-(max(bar)-min(bar))/110        
+        for (i in 1:length(bar))         {
+          lines(c(bar[i],bar[i]),c(upCI[i],loCI[i]))
+          lines(c(bar[i]-g,bar[i]+g),c(upCI[i],upCI[i]))
+          lines(c(bar[i]-g,bar[i]+g),c(loCI[i],loCI[i]))
+        } 
+        #lines(x = bar, y = dat[j,],  lwd = 2,col="red")
+        legend(x = "topright",
+               fill=c(NA,"gray","black"),border=c(NA,1,1),lty=c(1,0,0),
+               ncol=3,cex=.75,y.intersp=lsize,
+               legend = c(paste(ci*100,"% CI",sep=""), "Observed",names(mort.model)[models][j-1]))
+      }
+      
+      par(mfrow=c(1,1))
+    } 
+  }  
+  data.LowerCI <-loCI
+  data.PointValue <- mortality.matrix[1,]
+  data.UpperCI <- upCI
+  Taxon <- rep(unique(mortData$Genus), times = N.ages)
+  Output.Matrix <- data.frame(Taxon = Taxon, AgeClassLabs = Labels.ageclass, LowerCI = data.LowerCI, 
+                              PointValue = data.PointValue, UpperCI = data.UpperCI)
+  return(Output.Matrix)
+}

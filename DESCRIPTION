@@ -1,8 +1,8 @@
 Package: zooaRch
 Type: Package
 Title: Analytical Tools for Zooarchaeological Data
-Version: 1.0
-Date: 2015-03-15
+Version: 1.1
+Date: 2015-07-08
 Author: Erik Otarola-Castillo, Jesse Wolfhagen, Max D. Price
 Maintainer: Erik Otarola-Castillo <eotarolacastillo@fas.harvard.edu>
 Description: The analysis and inference of faunal remains recovered from archaeological sites concerns the field of zooarchaeology. The zooaRch package provides analytical tools to make inferences on zooarchaeological data. Functions in this package allow users to read, manipulate, visualize, and analyze zooarchaeological data.
@@ -10,7 +10,7 @@ Depends: ggplot2
 License: GPL (>= 2)
 Suggests: knitr
 VignetteBuilder: knitr
-Packaged: 2015-04-04 23:45:57 UTC; EOC
+Packaged: 2015-07-24 04:17:09 UTC; EOC
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2015-04-05 08:26:30
+Date/Publication: 2015-07-24 07:54:21
