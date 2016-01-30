@@ -4,7 +4,7 @@
 #' @title Analytical Tools for Zooarchaeological Data
 #' @author Erik Otarola-Castillo, Jesse Wolfhagen, and Max D. Price
 #'
-#' Functions in this package allow users to import, manipulate, analyze and visualize
+#' @description Functions in this package allow users to import, manipulate, analyze and visualize
 #' zooarchaeological data - the faunal remains recovered from archaeological sites. 
 NULL
 
@@ -202,9 +202,9 @@ surv.func<-function(SurviveData,labels=NULL, models=NULL, ci=95, plot=TRUE, iter
              legend = c("Survivorship", paste(ci,"% Confidence Interval",sep=""), names(surv.model)[models]))
     } 
   }  
-  data.LowerCI <- apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, probs = loCI)
+  data.UpperCI <- upCI
   data.PointValue <- survive.matrix[1,-1]
-  data.UpperCI <- apply(survive.matrix[,-1], MARGIN = 2, FUN = quantile, probs = upCI)
+  data.LowerCI <- loCI
   Taxon <- rep(unique(SurviveData$Genus), times = N.ages)
   Output.Matrix <- data.frame(Taxon = Taxon, AgeClassLabs = Labels.ageclass, LowerCI = data.LowerCI, 
                               PointValue = data.PointValue, UpperCI = data.UpperCI)

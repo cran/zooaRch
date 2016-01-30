@@ -2,7 +2,7 @@
 title: "zooaRch: An R Package for Zooarchaeological Analyses"
 author: "Erik Ot&#225;rola-Castillo, Harvard University, Jesse Wolfhagen, Stony Brook University, and Max Price, Harvard University"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
+output: rmarkdown::html_document
 vignette: >
   %\VignetteIndexEntry{zooaRch}
   %\VignetteEngine{knitr::rmarkdown}
